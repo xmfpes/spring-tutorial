@@ -2,6 +2,7 @@ package com.kyunam.springtutorial.security;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
@@ -10,7 +11,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
 import groovy.util.logging.Log;
 
@@ -20,7 +25,7 @@ import groovy.util.logging.Log;
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 	@Autowired
-	DataSource dataSource;
+	MemberService userDetailsService;
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,14 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .logout()
             .permitAll();
     }
-	@Autowired
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-		String query1 = "SELECT uid username, upw password, true enabled FROM member where uid = ?";
-		String query2 = "SELECT member uid, role_name role FROM member_role WHERE member = ?";
-		auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.usersByUsernameQuery(query1)
-		.rolePrefix("ROLE_")
-		.authoritiesByUsernameQuery(query2);
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 }

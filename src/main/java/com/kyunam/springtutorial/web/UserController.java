@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,9 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
+	PasswordEncoder pwEncoder;
+	
+	@Autowired
 	MemberRepository memberRepository;
 	
 	@GetMapping("/loginForm")
@@ -37,7 +41,8 @@ public class UserController {
 	
 	@PostMapping("")
 	public String register(Member member) {
-		member.setUpw((new BCryptPasswordEncoder().encode(member.getUpw())));
+		String encryptPw = pwEncoder.encode(member.getUpw());
+		member.setUpw(encryptPw);
 		MemberRole role = new MemberRole();
 		role.setRoleName("ADMIN");
 		member.setRoles(Arrays.asList(role));
