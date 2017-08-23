@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-            		.defaultSuccessUrl("/users/loginForm")
+            		.defaultSuccessUrl("http://localhost:8080/")
             		.failureUrl("/users/registerForm")
                 .loginPage("/users/loginForm")
                 .loginProcessingUrl("/users/login")

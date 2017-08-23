@@ -2,39 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/include/header">
 </head>
-    <body class="scroll-assist">
-    <div th:replace="/include/nav"></div>
+<body class="scroll-assist">
+	<div th:replace="/include/nav"></div>
 	<div class="main-container">
 		<section class="cover fullscreen image-bg overlay">
-                <div class="background-image-holder">
-                    <img alt="image" class="background-image" src="/foundry/img/home2.jpg" />
-                </div>
-                <div class="container v-align-transform">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <div class="feature bordered text-center">
-                                <h4 class="uppercase">Register Here</h4>
-                                <form action="/users/" method="post" class="text-left">
-                                		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                		<input type="text" name="uid" placeholder="UserId"/>
-                                		<input type="text" name="uname" placeholder="Username" />
-                                		<input type="text" name="uemail" placeholder="Email Address" />
-                                		<input type="password" name="upw" placeholder="Password" />
-                                    	<input type="password" placeholder="Confirm Password" />
-                                    	<input type="submit" value="Register" />
-                                </form>
-                                <p class="mb0">By signing up, you agree to our
-                                    <a href="#">Terms Of Use</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end of row-->
-                </div>
-                <!--end of container-->
-            </section>
-            <div th:replace="/include/footer"></div>
+			<div class="background-image-holder">
+				<img alt="image" class="background-image" src="/foundry/img/home2.jpg" />
+			</div>
+			<div class="container v-align-transform">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-3">
+						<div class="feature bordered text-center">
+							<h4 class="uppercase">Register Here</h4>
+							<form action="/users/" method="post" class="text-left">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+								<input type="text" name="uid" placeholder="UserId" /> 
+								<input type="text" name="uname" placeholder="Username" /> 
+								<input type="text" name="uemail" placeholder="Email Address" /> 
+								<input type="password" name="upw" placeholder="Password" /> 
+								<input type="password" placeholder="Confirm Password" /> 
+								<input type="submit" value="Register" />
+							</form>
+							<p class="mb0">
+								By signing up, you agree to our <a href="#">Terms Of Use</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<!--end of row-->
+			</div>
+			<!--end of container-->
+		</section>
+		<div th:replace="/include/footer"></div>
 	</div>
-		
 </body>
 </html>
