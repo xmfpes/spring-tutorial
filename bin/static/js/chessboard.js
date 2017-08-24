@@ -28,6 +28,8 @@ function drag(ev) {
 
 function drop(ev) {
     var data = ev.dataTransfer.getData("Text");
-    ev.target.append(document.getElementById(data).children[0]);
+    var parent = document.getElementById(data);
+ 
+    ev.target.append(parent.children[0]);
     ev.preventDefault();
 }
