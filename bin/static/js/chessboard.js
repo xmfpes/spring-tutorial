@@ -28,8 +28,16 @@ function drag(ev) {
 
 function drop(ev) {
     var data = ev.dataTransfer.getData("Text");
-    var parent = document.getElementById(data);
- 
-    ev.target.append(parent.children[0]);
+    var before = document.getElementById(data);
+    if(ev.target == before.children[0]){
+    		return;
+    }
+    if(ev.target.tagName == 'A'){
+	    	ev.target.parentNode.appendChild(before.children[0]);
+	    	ev.target.remove();
+    }else{
+	    	before.appendChild(ev.target.children[0]);
+	    	ev.target.appendChild(before.children[0]);
+    }
     ev.preventDefault();
 }
