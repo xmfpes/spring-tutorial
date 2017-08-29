@@ -32,7 +32,6 @@ public class MemberService implements UserDetailsService{
 		// TODO Auto-generated method stub
 		Member member = memberRepository.findByUid(username);
 		if(member != null) {
-			logger.info("find member");
 			return new MemberSecurityUser(member);
 		}
 		return null;

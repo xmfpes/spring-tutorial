@@ -1,0 +1,56 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="/include/header">
+</head>
+<body class="scroll-assist">
+	<div th:replace="/include/nav"></div>
+	<div class="main-container">
+		<section class="page-title page-title-4 bg-secondary">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8">
+						<h3 class="uppercase mb0">
+							<i class="ti-pencil-alt"></i>로또 시뮬레이터
+						</h3>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section>
+                <div class="container">
+                	<form action="/lotto/result">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4 class="uppercase mb16">로또 생성</h4>
+                            <p class="lead mb64">
+                                생성할 액수를 입력하세요
+                            </p>
+                            <input type="text" name="money" placeholder="Input money"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 class="uppercase mb16">수동 생성</h4>
+                            <p class="lead mb64">
+                               수동 생성 여부 체크
+                            </p>
+                            <!--end select-->
+                            <form class="mb24">
+                                <span>수동 생성</span>
+                                <div class="checkbox-option pull-right">
+                                    <div class="inner"></div>
+                                    <input type="checkbox" name="checkbox" value="Checkbox"/>
+                                </div>
+                            </form>
+                            <hr/>
+                            <input type="submit" value="Submit Button"/>
+                        </div>
+                    </div>
+                    </form>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+	</div>
+	<div th:replace="/include/footer"></div>
+</body>
+</html>

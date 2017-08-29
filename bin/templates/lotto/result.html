@@ -1,0 +1,157 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="/include/header">
+</head>
+<script>
+	if (document.addEventListener) {
+		document.addEventListener("DOMContentLoaded", function () {
+			document.removeEventListener("DOMContentLoaded", arguments.callee, false);
+			domReady();
+		}, false);
+	
+	
+	} 
+	
+	// Internet Explorer
+	else if (document.attachEvent) {
+		document.attachEvent("onreadystatechange", function () {
+			if (document.readyState === "complete") {
+				document.detachEvent("onreadystatechange", arguments.callee);
+				domReady();
+			}
+		});
+	}
+	
+	function domReady(){
+		var lottoMoney = document.getElementById("lottoMoney").value;
+		var money = document.getElementById("money").value;
+		var lotto3 = document.getElementById("lotto3").value * 5000 / lottoMoney;
+		var lotto4 = document.getElementById("lotto4").value * 50000 / lottoMoney;
+		var lotto5 = document.getElementById("lotto5").value * 1500000 / lottoMoney;
+		var lottoBonus = document.getElementById("lottoBonus").value * 100000000 / lottoMoney ;
+		var lotto6 = document.getElementById("lotto6").value * 1000000000 / lottoMoney;
+		var lottoresult = lottoMoney / document.getElementById("money").value;
+	
+		document.getElementById("lottoval5").setAttribute("data-progress", lotto3 * 100);
+		document.getElementById("lottoval5").children[0].innerHTML = "5등(3개 일치) " + document.getElementById("lotto3").value + "회";
+		
+		document.getElementById("lottoval4").setAttribute("data-progress", lotto4 * 100);
+		document.getElementById("lottoval4").children[0].innerHTML = "4등(4개 일치) " + document.getElementById("lotto4").value + "회";
+		
+		document.getElementById("lottoval3").setAttribute("data-progress", lotto5 * 100);
+		document.getElementById("lottoval3").children[0].innerHTML = "3등(5개 일치) " + document.getElementById("lotto5").value + "회";
+		
+		document.getElementById("lottoval2").setAttribute("data-progress", lottoBonus * 100);
+		document.getElementById("lottoval2").children[0].innerHTML = "2등(5개 + 보너스) " + document.getElementById("lottoBonus").value + "회";
+		
+		document.getElementById("lottoval1").setAttribute("data-progress", lotto6 * 100);
+		document.getElementById("lottoval1").children[0].innerHTML = "1등(6개 일치) " + document.getElementById("lotto6").value + "회";
+		
+		if(lottoresult >= 1){
+			document.getElementById("lottoresult").setAttribute("data-progress", 100);
+		}else{
+			document.getElementById("lottoresult").setAttribute("data-progress", lottoresult * 100);
+		}
+		
+		document.getElementById("lottoresult").children[0].innerHTML = "수익률 " + Math.round(lottoresult * 100) + "%";
+		document.getElementById('lottoresultdata').innerHTML = Math.round(lottoresult * 100) +'%';
+	}
+</script>
+<body class="scroll-assist">
+	<div th:replace="/include/nav"></div>
+	<div class="main-container">
+		<section class="page-title page-title-4 bg-secondary">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8">
+						<h3 class="uppercase mb0">
+							<i class="ti-pencil-alt"></i>로또 시뮬레이터 결과
+						</h3>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section>
+			<div class="container">
+				<input type="hidden" id="money" th:value="${money}"/>
+				<input type="hidden" id="lotto3" th:value="${lottoresult.countOfMatch3}"/>
+				<input type="hidden" id="lotto4" th:value="${lottoresult.countOfMatch4}"/>
+				<input type="hidden" id="lotto5" th:value="${lottoresult.countOfMatch5}"/>
+				<input type="hidden" id="lottoBonus" th:value="${lottoresult.countOfMatchBonus}"/>
+				<input type="hidden" id="lotto6" th:value="${lottoresult.countOfMatch6}"/>
+				<input type="hidden" id="lottoMoney" th:value="${lottoresult.sumOfLottoMoney}"/>
+				<!--end of row-->
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 text-center">
+						<h4 class="uppercase mb16">이번주 당첨 번호</h4>
+						<div class="col-sm-12 text-center uppercase mb16">
+                            <div th:if="${winningLotto.lottoNos != null}">
+						    		<img th:each="item : ${winningLotto.lottoNos}" th:src="@{'http://nlotto.co.kr/img/common_new/ball_' + ${item} + '.png'}" th:alt="${item}"/>
+							</div>
+                        </div>
+						<p class="lead mb16">총 수익 : <a th:text="${lottoresult.sumOfLottoMoney} +'원'"></a>
+						</p>
+						<p class="lead mb64">수익률 : <a id="lottoresultdata"></a>
+						</p>
+					</div>
+				</div>
+				<!--end of row-->
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 col-sm-12 text-center">
+						<div class="progress-bars">
+							<div class="progress progress-1">
+								<div class="progress-bar" id="lottoval5" data-progress="90">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" id="lottoval4" data-progress="30">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" id="lottoval3" data-progress="30">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" id="lottoval2" data-progress="30">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" id="lottoval1" data-progress="30">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" id="lottoresult" data-progress="30">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+						</div>
+						<!--end of bars holder-->
+					</div>
+				</div>
+<!-- 				<div class="col-sm-12 text-center"> -->
+<!-- 					<div th:each="lottos : ${mylotto}"> -->
+<!-- 						<div th:each="lotto : ${lottos}"> -->
+<!-- 							<img th:each="item : ${lotto.lottoNos}" th:src="@{'http://nlotto.co.kr/img/common_new/ball_' + ${item} + '.png'}" th:alt="${item}"/> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+			</div>
+		</section>
+	</div>
+	<div th:replace="/include/footer"></div>
+</body>
+</html>
