@@ -20,7 +20,7 @@ public class LottoManager {
 
 	public int countOfLotto(int money) {
 		if(money < 1000) {
-			throw new NumberFormatException("최소 액수보다 적은 돈이 입력되었습니다.");
+			throw new NumberFormatException("최소 액수보다 적은 돈이 입력되었습니다. input 1000 upper money");
 		}
 		return money / 1000;
 	}

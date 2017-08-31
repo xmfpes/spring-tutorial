@@ -51,18 +51,22 @@ public class LottoController {
 			e.printStackTrace();
 		}
 		
-		Result result = lottoManager.matchLotto(winningLotto, buyngLottos, winningLottoCreator.getBonusNum());
-		result.calculateProfits(money - nonAutoLottos.getCustomLottoMoney());
-		ResultDto resultDto = ResultDto.fromResult(result);
-		
-		
-		Result customResult = lottoManager.matchLotto(winningLotto, customLottos, winningLottoCreator.getBonusNum());
-		customResult.calculateProfits(nonAutoLottos.getCustomLottoMoney());
-		ResultDto customLottoResultDto = ResultDto.fromResult(customResult);
-	
-		model.addAttribute("resultDto", resultDto);
-		model.addAttribute("customLottoResultDto", customLottoResultDto);
-		model.addAttribute("winningLotto", winningLotto);
+		try {
+			Result result = lottoManager.matchLotto(winningLotto, buyngLottos, winningLottoCreator.getBonusNum());
+			result.calculateProfits(money - nonAutoLottos.getCustomLottoMoney());
+			ResultDto resultDto = ResultDto.fromResult(result);
+			
+			
+			Result customResult = lottoManager.matchLotto(winningLotto, customLottos, winningLottoCreator.getBonusNum());
+			customResult.calculateProfits(nonAutoLottos.getCustomLottoMoney());
+			ResultDto customLottoResultDto = ResultDto.fromResult(customResult);
+			
+			model.addAttribute("resultDto", resultDto);
+			model.addAttribute("customLottoResultDto", customLottoResultDto);
+			model.addAttribute("winningLotto", winningLotto);
+		} catch(NullPointerException e) {
+			e.printStackTrace();
+		}
 		
 		return "/lotto/result";
 	}
