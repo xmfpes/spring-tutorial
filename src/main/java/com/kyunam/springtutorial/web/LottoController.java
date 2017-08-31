@@ -6,60 +6,63 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kyunam.springtutorial.lotto.LottoMachine;
-import com.kyunam.springtutorial.lotto.CustomLotto;
+import com.kyunam.springtutorial.lotto.LottoManager;
+import com.kyunam.springtutorial.lotto.NonAutoLottos;
 import com.kyunam.springtutorial.lotto.Lotto;
 import com.kyunam.springtutorial.lotto.Result;
-import com.kyunam.springtutorial.lotto.WinningLotto;
+import com.kyunam.springtutorial.lotto.WinningLottoManager;
 
 
 @Controller
 @RequestMapping("/lotto")
 public class LottoController {
-	static LottoMachine lottoMachine;
-	static WinningLotto winningLottoCreator;
+	static LottoManager lottoManager;
+	static WinningLottoManager winningLottoCreator;
+	static NonAutoLottos nonAutoLottos;
 	@GetMapping("")
 	public String Lotto() {
 		
 		return "/lotto/lotto";
 	}
-	@GetMapping("/result")
+	@PostMapping("/result")
 	public String LottoResult(int money, Model model, String custom){
 		int countOfLotto = 0;
-		lottoMachine = new LottoMachine();
-		winningLottoCreator = new WinningLotto();
+		lottoManager = new LottoManager();
+		winningLottoCreator = new WinningLottoManager();
 		Lotto winningLotto = null;
+		List<Lotto> customLottos = null;
+		List<Lotto> buyngLottos = null;
+		
+		try {
+			nonAutoLottos = new NonAutoLottos(custom);
+			countOfLotto = lottoManager.countOfLotto(money - nonAutoLottos.getCustomLottoMoney());
+			customLottos = nonAutoLottos.getCustomLottoList();
+			buyngLottos = lottoManager.buyAutoLottos(countOfLotto);
+		}catch(NumberFormatException e){
+			e.printStackTrace();
+		}
+		
 		try {
 			winningLotto = winningLottoCreator.getWinningLottor();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			countOfLotto = lottoMachine.countOfLotto(money);
-			
-		} catch(NumberFormatException e) {
-			e.printStackTrace();
-		}
-		List<Lotto> buyngLottos = lottoMachine.buyAutoLottos(countOfLotto);
-		Result result = lottoMachine.matchLotto(winningLotto, buyngLottos, winningLottoCreator.getBonusNum());
-		result.calculateProfits(money);
-		ResultDto resultDto = ResultDto.fromResult(result);
-		List<Lotto> myCustomLottos = new CustomLotto(custom).getCustomLottoList();
-		Result customResult = lottoMachine.matchLotto(winningLotto, myCustomLottos, winningLottoCreator.getBonusNum());
-		ResultDto customLottoResultDto = ResultDto.fromResult(customResult);
-		countOfLotto -=  myCustomLottos.size();
 		
-		model.addAttribute("money", money);
+		Result result = lottoManager.matchLotto(winningLotto, buyngLottos, winningLottoCreator.getBonusNum());
+		result.calculateProfits(money - nonAutoLottos.getCustomLottoMoney());
+		ResultDto resultDto = ResultDto.fromResult(result);
+		
+		
+		Result customResult = lottoManager.matchLotto(winningLotto, customLottos, winningLottoCreator.getBonusNum());
+		customResult.calculateProfits(nonAutoLottos.getCustomLottoMoney());
+		ResultDto customLottoResultDto = ResultDto.fromResult(customResult);
+	
 		model.addAttribute("resultDto", resultDto);
 		model.addAttribute("customLottoResultDto", customLottoResultDto);
-		model.addAttribute("mylotto", buyngLottos);
 		model.addAttribute("winningLotto", winningLotto);
-		System.out.println(custom);
-		System.out.println(customLottoResultDto.getCountOfMatch4());
-		
-		
 		
 		return "/lotto/result";
 	}

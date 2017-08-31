@@ -11,7 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class WinningLotto {
+public class WinningLottoManager {
 	private Lotto lotto;
 	private int bonusNum;
 	
@@ -27,7 +27,7 @@ public class WinningLotto {
 	public void setLotto(Lotto lotto) {
 		this.lotto = lotto;
 	}
-	public WinningLotto() {
+	public WinningLottoManager() {
 		lotto = new Lotto();
 	}
 	public Lotto getWinningLottor() throws IOException{

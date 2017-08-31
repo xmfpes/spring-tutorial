@@ -1,16 +1,13 @@
 package com.kyunam.springtutorial.lotto;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class LottoMachine {
+public class LottoManager {
 	private Integer data[];
 	
-	public LottoMachine() {
+	public LottoManager() {
 		data = new Integer[45];
 		for (int i = 0; i < 45; i++) {
 			data[i] = i + 1;
@@ -44,9 +41,7 @@ public class LottoMachine {
 		Result result = new Result();
 		for(int i=0; i<buyngLottos.size(); i++) {
 			buyngLottos.get(i).checkBonus(bonus);
-			result = result.updateResult(
-					(new Result(buyngLottos.get(i).compareLotto(winningLotto)))
-			);
+			result.updateResult(buyngLottos.get(i).compareLotto(winningLotto));
 		}
 		return result;
 	}

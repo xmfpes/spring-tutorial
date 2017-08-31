@@ -1,11 +1,12 @@
 package com.kyunam.springtutorial.web;
 
 import com.kyunam.springtutorial.lotto.Result;
+import com.kyunam.springtutorial.lotto.Result.Match;
 
 public class ResultDto {
+	private int sumOfMoney;
 	private int profits;
 	private int sumOfLottoMoney;
-	private int countOfLotto;
 	private int countOfMatch3;
 	private int countOfMatch4;
 	private int countOfMatch5;
@@ -21,26 +22,29 @@ public class ResultDto {
 	public static ResultDto fromResult(Result result) {
 		ResultDto resultDto = new ResultDto();
 		resultDto.profits = result.getProfit();
-		resultDto.countOfMatchBonus = result.getCountOfMatchBonus();
-		resultDto.countOfMatch3 = result.getCountOfMatch3();
-		resultDto.countOfMatch4 = result.getCountOfMatch4();
-		resultDto.countOfMatch5 = result.getCountOfMatch5();
-		resultDto.countOfMatch6 = result.getCountOfMatch6();
+		resultDto.countOfMatchBonus = result.getCountOfMatchLotto(Match.MATCHBonus.getCount());
+		resultDto.countOfMatch3 = result.getCountOfMatchLotto(Match.MATCH3.getCount());
+		resultDto.countOfMatch4 = result.getCountOfMatchLotto(Match.MATCH4.getCount());
+		resultDto.countOfMatch5 = result.getCountOfMatchLotto(Match.MATCH5.getCount());
+		resultDto.countOfMatch6 = result.getCountOfMatchLotto(Match.MATCH6.getCount());
 		resultDto.sumOfLottoMoney = result.getSumOfLottoMoney();
-		resultDto.calculateRate(result.getSumOfLottoMoney());
+		resultDto.calculateRates(result.getSumOfLottoMoney());
+		resultDto.sumOfMoney = result.getSumOfMoney();
 		
 		return resultDto;
 	}
 	
-	public void calculateRate(int money) {
-		
-		this.countOfMatch3Rate = (int)(((double)(countOfMatch3 * 5000)  / (money))* 100);
-		this.countOfMatch4Rate = (int)(((double)(countOfMatch4 * 50000) / (money)) * 100);
-		this.countOfMatch5Rate = (int)(((double)(countOfMatch5 * 1500000) / (money)) * 100);
-		this.countOfMatch6Rate = (int)(((double)(countOfMatch6 * 1000000000) / (money)) * 100);
-		this.countOfMatchBonusRate = (int)(((double)(countOfMatchBonus * 100000000) / (money)) * 100);
+	public void calculateRates(int money) {
+		this.countOfMatch3Rate = calculateRate(Match.MATCH3, countOfMatch3, money);
+		this.countOfMatch4Rate = calculateRate(Match.MATCH4, countOfMatch4, money);
+		this.countOfMatch5Rate = calculateRate(Match.MATCH5, countOfMatch5, money);
+		this.countOfMatch6Rate = calculateRate(Match.MATCH6, countOfMatch6, money);
+		this.countOfMatchBonusRate = calculateRate(Match.MATCHBonus, countOfMatchBonus, money);
 	}
 	
+	public int calculateRate(Match match, int countOfMatch, int money) {
+		return (int)(((double)(countOfMatch * match.getMoney())  / (money))* 100);
+	}
 
 	public int getProfits() {
 		return profits;
@@ -50,12 +54,12 @@ public class ResultDto {
 		this.profits = profits;
 	}
 
-	public int getCountOfLotto() {
-		return countOfLotto;
+	public int getSumOfLottoMoney() {
+		return sumOfLottoMoney;
 	}
 
-	public void setCountOfLotto(int countOfLotto) {
-		this.countOfLotto = countOfLotto;
+	public void setSumOfLottoMoney(int sumOfLottoMoney) {
+		this.sumOfLottoMoney = sumOfLottoMoney;
 	}
 
 	public int getCountOfMatch3() {
@@ -138,13 +142,12 @@ public class ResultDto {
 		this.countOfMatchBonusRate = countOfMatchBonusRate;
 	}
 
-	public int getSumOfLottoMoney() {
-		return sumOfLottoMoney;
+	public int getSumOfMoney() {
+		return sumOfMoney;
 	}
 
-	public void setSumOfLottoMoney(int sumOfLottoMoney) {
-		this.sumOfLottoMoney = sumOfLottoMoney;
+	public void setSumOfMoney(int sumOfMoney) {
+		this.sumOfMoney = sumOfMoney;
 	}
-	
-	
+
 }

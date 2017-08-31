@@ -1,111 +1,132 @@
 package com.kyunam.springtutorial.lotto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Result {
+	public enum Match{
+		MATCH3(3, 5000),
+		MATCH4(4, 50000),
+		MATCH5(5, 1500000),
+		MATCH6(6, 1000000000),
+		MATCHBonus(7, 100000000);
+		
+		private int count;
+		private int money;
+		
+		private Match(int count, int money) {
+			this.count = count;
+			this.money = money;
+		}
+		
+		public int getCount() {
+			return count;
+		}
+
+		public void setCount(int count) {
+			this.count = count;
+		}
+
+		public int getMoney() {
+			return money;
+		}
+
+		public void setMoney(int money) {
+			this.money = money;
+		}
+
+		public static Match getMatch(int count) {
+			Match [] list = Match.values();
+			for(Match match : list) {
+				if(match.getCount() == count) {
+					return match;
+				}
+			}
+			throw new IllegalArgumentException(count + "는 유효하지 않은 값입니다.");
+		}
+	}
+	private List<MatchingResult> results;
 	private int profit;
-	private int countOfMatch3;
-	private int countOfMatch4;
-	private int countOfMatch5;
-	private int countOfMatch6;
-	private int countOfMatchBonus;
+	
 	private int sumOfLottoMoney;
+	private int sumOfMoney;
 
-	public Result() {}
-	public Result(int n) {
-		if (n == 3) {
-			countOfMatch3 = 1;
-			sumOfLottoMoney = 5000;
+	public Result() {
+		results = new ArrayList<MatchingResult>();
+		results.add(new MatchingResult(Match.MATCH3));
+		results.add(new MatchingResult(Match.MATCH4));
+		results.add(new MatchingResult(Match.MATCH5));
+		results.add(new MatchingResult(Match.MATCH6));
+		results.add(new MatchingResult(Match.MATCHBonus));
+	}
+
+	public void updateResult(int count) {
+		if(count < 3) {
+			//3이하는 미당첨, 연산할 필요 없음
+			return;
 		}
-		if (n == 4) {
-			countOfMatch4 = 1;
-			sumOfLottoMoney = 50000;
-		}
-		if (n == 5) {
-			countOfMatch5 = 1;
-			sumOfLottoMoney = 1500000;
-		}
-		if (n == 6) {
-			countOfMatch6 = 1;
-			sumOfLottoMoney = 1000000000;
-		}
-		if (n == 7) {
-			countOfMatchBonus = 1;
-			sumOfLottoMoney = 100000000;
+		for(MatchingResult result : results) {
+			if(result.checkMatch(Match.getMatch(count))) {
+				result.updateMatcingResult();
+				this.sumOfLottoMoney +=  Match.getMatch(count).getMoney();
+			}
 		}
 	}
 
-	public Result(int countOfMatch3, int countOfMatch4, int countOfMatch5, int countOfMatchBonus, int countOfMatch6, int sumOfLottoMoney) {
-
-		this.countOfMatch3 = countOfMatch3;
-		this.countOfMatch4 = countOfMatch4;
-		this.countOfMatch5 = countOfMatch5;
-		this.countOfMatchBonus = countOfMatchBonus;
-		this.countOfMatch6 = countOfMatch6;
-		this.sumOfLottoMoney = sumOfLottoMoney;
-
-	}
-
-	public Result updateResult(Result result) {
-		return new Result(this.countOfMatch3 + result.getCountOfMatch3(),
-				this.countOfMatch4 + result.getCountOfMatch4(), this.countOfMatch5 + result.getCountOfMatch5(),
-				this.countOfMatchBonus + result.getCountOfMatchBonus(), this.countOfMatch6 + result.getCountOfMatch6(),
-				this.sumOfLottoMoney + result.sumOfLottoMoney);
-	}
-
-	public int getCountOfMatch3() {
-		return countOfMatch3;
-	}
-
-	public void setCountOfMatch3(int countOfMatch3) {
-		this.countOfMatch3 = countOfMatch3;
-	}
-
-	public int getCountOfMatch4() {
-		return countOfMatch4;
-	}
-
-	public void setCountOfMatch4(int countOfMatch4) {
-		this.countOfMatch4 = countOfMatch4;
-	}
-
-	public int getCountOfMatch5() {
-		return countOfMatch5;
-	}
-
-	public void setCountOfMatch5(int countOfMatch5) {
-		this.countOfMatch5 = countOfMatch5;
-	}
-
-	public int getCountOfMatch6() {
-		return countOfMatch6;
-	}
-
-	public void setCountOfMatch6(int countOfMatch6) {
-		this.countOfMatch6 = countOfMatch6;
-	}
-
-	public int getCountOfMatchBonus() {
-		return countOfMatchBonus;
-	}
-
-	public void setCountOfMatchBonus(int countOfMatchBonus) {
-		this.countOfMatchBonus = countOfMatchBonus;
-	}
 	public int getSumOfLottoMoney() {
 		return sumOfLottoMoney;
 	}
+	
+	public void calculateProfits(int money) {
+		this.sumOfMoney = money;
+		this.profit = (int)(((double)(sumOfLottoMoney) / money)*100);
+	}
+	
+	public int getSumOfMoney() {
+		return sumOfMoney;
+	}
+
+	public void setSumOfMoney(int sumOfMoney) {
+		this.sumOfMoney = sumOfMoney;
+	}
+
 	public void setSumOfLottoMoney(int sumOfLottoMoney) {
 		this.sumOfLottoMoney = sumOfLottoMoney;
 	}
-	public void calculateProfits(int money) {
-		this.profit = (int)(((double)(sumOfLottoMoney) / money)*100);
-	}
+
 	public int getProfit() {
 		return profit;
 	}
 	public void setProfit(int profit) {
 		this.profit = profit;
+	}
+	
+	public int getCountOfMatchLotto(int count) {
+		Match match  = Match.getMatch(count);
+		for(int i=0; i<results.size(); i++) {
+			if(results.get(i).checkMatch(match))
+				return results.get(i).getCountOfMatchLotto();
+		}
+		
+		throw new NumberFormatException("잘못된 값이 입력되었습니다.");
+	}
+	private static class MatchingResult{
+		private int countOfMatchLotto = 0;
+		private Match match;
+		public MatchingResult(Match match){
+			this.match = match;
+		}
+		
+		public int getCountOfMatchLotto() {
+			return countOfMatchLotto;
+		}
+
+		private boolean checkMatch(Match match) {
+			return this.match == match;
+		}
+		private void updateMatcingResult() {
+			this.countOfMatchLotto++;
+		}
 	}
 	
 
