@@ -7,7 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		runtime files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+		compile files("${System.properties['java.home']}/../lib/tools.jar")
 	}
 }
 
