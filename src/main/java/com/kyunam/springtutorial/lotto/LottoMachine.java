@@ -22,6 +22,9 @@ public class LottoMachine {
 	}
 
 	public int countOfLotto(int money) {
+		if(money < 1000) {
+			throw new NumberFormatException("최소 액수보다 적은 돈이 입력되었습니다.");
+		}
 		return money / 1000;
 	}
 
@@ -37,11 +40,12 @@ public class LottoMachine {
 		return myLottolist;
 	}
 	
-	public Result matchLotto(Lotto winningLotto, List<Lotto> buyngLottos) {
+	public Result matchLotto(Lotto winningLotto, List<Lotto> buyngLottos, int bonus) {
 		Result result = new Result();
 		for(int i=0; i<buyngLottos.size(); i++) {
+			buyngLottos.get(i).checkBonus(bonus);
 			result = result.updateResult(
-					(new Result(winningLotto.compareLotto(buyngLottos.get(i))))
+					(new Result(buyngLottos.get(i).compareLotto(winningLotto)))
 			);
 		}
 		return result;

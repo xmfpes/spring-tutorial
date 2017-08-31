@@ -3,6 +3,7 @@ package com.kyunam.springtutorial.lotto;
 import java.util.ArrayList;
 
 public class Result {
+	private int profit;
 	private int countOfMatch3;
 	private int countOfMatch4;
 	private int countOfMatch5;
@@ -97,5 +98,15 @@ public class Result {
 	public void setSumOfLottoMoney(int sumOfLottoMoney) {
 		this.sumOfLottoMoney = sumOfLottoMoney;
 	}
+	public void calculateProfits(int money) {
+		this.profit = (int)(((double)(sumOfLottoMoney) / money)*100);
+	}
+	public int getProfit() {
+		return profit;
+	}
+	public void setProfit(int profit) {
+		this.profit = profit;
+	}
+	
 
 }

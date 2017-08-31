@@ -3,6 +3,36 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="/include/header">
 </head>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+</script>
+<script>
+var input = document.createElement("textarea");
+input.name = "post";
+input.maxLength = "1000";
+input.cols = "20";
+input.rows = "5";
+input.name = "custom";
+input.placeholder = "input lotto number(ex) 1,2,3,4,5,6";
+$(document).ready(function() {
+	$('.checkbox-option').on({
+	    click: function(e) {
+	    		if(this.getAttribute('class') == 'checkbox-option pull-right'){
+	    			 $('.appenddiv').empty();
+	    		}else{
+	    			input.value="";
+	    			 $('.appenddiv').append(input);
+	    		}
+	       
+	    },
+	    change: function(e) {
+	        $('#changeFlag').toggleClass('on');
+	    }
+	});
+});
+
+    
+
+</script>
 <body class="scroll-assist">
 	<div th:replace="/include/nav"></div>
 	<div class="main-container">
@@ -18,38 +48,34 @@
 			</div>
 		</section>
 		<section>
-                <div class="container">
-                	<form action="/lotto/result">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h4 class="uppercase mb16">로또 생성</h4>
-                            <p class="lead mb64">
-                                생성할 액수를 입력하세요
-                            </p>
-                            <input type="text" name="money" placeholder="Input money"/>
-                        </div>
-                        <div class="col-sm-6">
-                            <h4 class="uppercase mb16">수동 생성</h4>
-                            <p class="lead mb64">
-                               수동 생성 여부 체크
-                            </p>
-                            <!--end select-->
-                            <form class="mb24">
-                                <span>수동 생성</span>
-                                <div class="checkbox-option pull-right">
-                                    <div class="inner"></div>
-                                    <input type="checkbox" name="checkbox" value="Checkbox"/>
-                                </div>
-                            </form>
-                            <hr/>
-                            <input type="submit" value="Submit Button"/>
-                        </div>
-                    </div>
-                    </form>
-                    <!--end of row-->
-                </div>
-                <!--end of container-->
-            </section>
+			<div class="container">
+				<form action="/lotto/result">
+					<div class="row">
+						<div class="col-sm-6">
+							<h4 class="uppercase mb16">로또 생성</h4>
+							<p class="lead mb64">생성할 액수를 입력하세요</p>
+							<input type="text" name="money" placeholder="Input money" />
+						</div>
+						<div class="col-sm-6">
+							<h4 class="uppercase mb16">수동 생성</h4>
+							<p class="lead mb64">수동 생성 여부 체크</p>
+							<!--end select-->
+							<form class="mb24">
+								<span>수동 생성</span>
+								<div class="checkbox-option pull-right">
+									<div class="inner"></div>
+								</div>
+							</form>
+							<div class="appenddiv"></div>
+							<hr />
+							<input type="submit" value="Submit Button" />
+						</div>
+					</div>
+				</form>
+				<!--end of row-->
+			</div>
+			<!--end of container-->
+		</section>
 	</div>
 	<div th:replace="/include/footer"></div>
 </body>

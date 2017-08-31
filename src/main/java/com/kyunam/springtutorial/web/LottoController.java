@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kyunam.springtutorial.lotto.LottoMachine;
+import com.kyunam.springtutorial.lotto.CustomLotto;
 import com.kyunam.springtutorial.lotto.Lotto;
-import com.kyunam.springtutorial.lotto.LottoReport;
 import com.kyunam.springtutorial.lotto.Result;
 import com.kyunam.springtutorial.lotto.WinningLotto;
 
@@ -26,20 +26,40 @@ public class LottoController {
 		return "/lotto/lotto";
 	}
 	@GetMapping("/result")
-	public String LottoResult(int money, Model model) throws IOException {
-		
+	public String LottoResult(int money, Model model, String custom){
+		int countOfLotto = 0;
 		lottoMachine = new LottoMachine();
 		winningLottoCreator = new WinningLotto();
-		Lotto winningLotto = winningLottoCreator.getWinningLottor();
-		int countOfLotto = lottoMachine.countOfLotto(money);
+		Lotto winningLotto = null;
+		try {
+			winningLotto = winningLottoCreator.getWinningLottor();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			countOfLotto = lottoMachine.countOfLotto(money);
+			
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+		}
 		List<Lotto> buyngLottos = lottoMachine.buyAutoLottos(countOfLotto);
-		Result result = lottoMachine.matchLotto(winningLotto, buyngLottos);
-		LottoReport lottoReport = new LottoReport(money, result);
+		Result result = lottoMachine.matchLotto(winningLotto, buyngLottos, winningLottoCreator.getBonusNum());
+		result.calculateProfits(money);
+		ResultDto resultDto = ResultDto.fromResult(result);
+		List<Lotto> myCustomLottos = new CustomLotto(custom).getCustomLottoList();
+		Result customResult = lottoMachine.matchLotto(winningLotto, myCustomLottos, winningLottoCreator.getBonusNum());
+		ResultDto customLottoResultDto = ResultDto.fromResult(customResult);
+		countOfLotto -=  myCustomLottos.size();
 		
 		model.addAttribute("money", money);
-		model.addAttribute("lottoresult", result);
+		model.addAttribute("resultDto", resultDto);
+		model.addAttribute("customLottoResultDto", customLottoResultDto);
 		model.addAttribute("mylotto", buyngLottos);
 		model.addAttribute("winningLotto", winningLotto);
+		System.out.println(custom);
+		System.out.println(customLottoResultDto.getCountOfMatch4());
+		
+		
 		
 		return "/lotto/result";
 	}

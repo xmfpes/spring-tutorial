@@ -9,19 +9,16 @@ import java.util.Scanner;
 
 public class Lotto {
 	private List<Integer> lottoNos;
-	private boolean isBonus;
+	private boolean isBonus = false;
 	
 	public Lotto() {
 		lottoNos = new ArrayList<Integer>();
-		isBonus = false;
 	}
 	public Lotto(List<Integer> lotto) {
 		lottoNos = lotto;
-		isBonus = false;
 	}
 	public Lotto(Integer data[]) {
 		lottoNos = new ArrayList<Integer>();
-		isBonus = false;
 		createLotto(data);
 	}
 	public Integer findSingleLotto(int index){

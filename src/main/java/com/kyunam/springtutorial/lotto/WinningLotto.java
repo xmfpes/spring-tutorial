@@ -11,12 +11,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-
-
 public class WinningLotto {
 	private Lotto lotto;
 	private int bonusNum;
 	
+	public int getBonusNum() {
+		return bonusNum;
+	}
+	public void setBonusNum(int bonusNum) {
+		this.bonusNum = bonusNum;
+	}
 	public Lotto getLotto() {
 		return lotto;
 	}
