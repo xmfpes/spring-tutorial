@@ -6,32 +6,29 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
 </script>
 <script>
-var input = document.createElement("textarea");
-input.name = "post";
-input.maxLength = "1000";
-input.cols = "20";
-input.rows = "5";
-input.name = "custom";
-input.placeholder = "input lotto number(ex) 1,2,3,4,5,6";
-$(document).ready(function() {
-	$('.checkbox-option').on({
-	    click: function(e) {
-	    		if(this.getAttribute('class') == 'checkbox-option pull-right'){
-	    			 $('.appenddiv').empty();
-	    		}else{
-	    			input.value="";
-	    			 $('.appenddiv').append(input);
-	    		}
-	       
-	    },
-	    change: function(e) {
-	        $('#changeFlag').toggleClass('on');
-	    }
+	var input = document.createElement("textarea");
+	input.name = "post";
+	input.maxLength = "1000";
+	input.cols = "20";
+	input.rows = "5";
+	input.name = "custom";
+	input.placeholder = "input lotto number(ex) 1,2,3,4,5,6";
+	$(document).ready(function() {
+		$('.checkbox-option').on({
+		    click: function(e) {
+		    		if(this.getAttribute('class') == 'checkbox-option pull-right'){
+		    			 $('.appenddiv').empty();
+		    		}else{
+		    			input.value="";
+		    			 $('.appenddiv').append(input);
+		    		}
+		       
+		    },
+		    change: function(e) {
+		        $('#changeFlag').toggleClass('on');
+		    }
+		});
 	});
-});
-
-    
-
 </script>
 <body class="scroll-assist">
 	<div th:replace="/include/nav"></div>
@@ -49,7 +46,7 @@ $(document).ready(function() {
 		</section>
 		<section>
 			<div class="container">
-				<form action="/lotto/result">
+				<form method="post" action="/lotto/result">
 					<div class="row">
 						<div class="col-sm-6">
 							<h4 class="uppercase mb16">로또 생성</h4>
@@ -68,6 +65,7 @@ $(document).ready(function() {
 							</form>
 							<div class="appenddiv"></div>
 							<hr />
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 							<input type="submit" value="Submit Button" />
 						</div>
 					</div>

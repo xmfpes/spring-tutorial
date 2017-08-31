@@ -24,37 +24,24 @@
 	}
 	
 	function domReady(){
-		var money = document.getElementById("money").value;
-		var lotto3 = document.getElementById("countOfMatch3Rate").value;
-		var lotto4 = document.getElementById("countOfMatch4Rate").value;
-		var lotto5 = document.getElementById("countOfMatch5Rate").value;
-		var lottoBonus = document.getElementById("countOfMatchBonusRate").value;
-		var lotto6 = document.getElementById("countOfMatch6Rate").value;
-		var profit = document.getElementById("profit").value;
-	
-		document.getElementById("lottoval5").setAttribute("data-progress", lotto3);
-		document.getElementById("lottoval5").children[0].innerHTML = "5등(3개 일치) " + document.getElementById("countOfMatch3").value + "번";
-		
-		document.getElementById("lottoval4").setAttribute("data-progress", lotto4);
-		document.getElementById("lottoval4").children[0].innerHTML = "4등(4개 일치) " + document.getElementById("countOfMatch4").value + "번";
-		
-		document.getElementById("lottoval3").setAttribute("data-progress", lotto5);
-		document.getElementById("lottoval3").children[0].innerHTML = "3등(5개 일치) " + document.getElementById("countOfMatch5").value + "번";
-		
-		document.getElementById("lottoval2").setAttribute("data-progress", lottoBonus);
-		document.getElementById("lottoval2").children[0].innerHTML = "2등(5개 + 보너스) " + document.getElementById("countOfMatchBonus").value + "번";
-		
-		document.getElementById("lottoval1").setAttribute("data-progress", lotto6);
-		document.getElementById("lottoval1").children[0].innerHTML = "1등(6개 일치) " + document.getElementById("countOfMatch6").value + "번";
+		var profit = document.getElementById('profit').value;
+		var myprofit = document.getElementById('nonAutoProfit').value;
 		
 		if(profit >= 100){
-			document.getElementById("lottoresult").setAttribute("data-progress", 100);
+			document.getElementById("autoLottoResult").setAttribute("data-progress", 100);
 		}else{
-			document.getElementById("lottoresult").setAttribute("data-progress", profit);
+			document.getElementById("autoLottoResult").setAttribute("data-progress", profit);
 		}
 		
-		document.getElementById("lottoresult").children[0].innerHTML = "수익률 " + profit + "%";
-		document.getElementById('lottoresultdata').innerHTML = profit +'%';
+		if(myprofit >= 100){
+			document.getElementById("nonAutoResult").setAttribute("data-progress", 100);
+		}else{
+			document.getElementById("nonAutoResult").setAttribute("data-progress", myprofit);
+		}
+		
+		document.getElementById("autoLottoResult").children[0].innerHTML = "수익률 " + profit + "%";
+		document.getElementById("nonAutoResult").children[0].innerHTML = "수익률 " + myprofit + "%";
+		
 	}
 </script>
 <body class="scroll-assist">
@@ -73,19 +60,8 @@
 		</section>
 		<section>
 			<div class="container">
-				<input type="hidden" id="money" th:value="${money}"/>
-				<input type="hidden" id="countOfMatch3Rate" th:value="${resultDto.countOfMatch3Rate}"/>
-				<input type="hidden" id="countOfMatch4Rate" th:value="${resultDto.countOfMatch4Rate}"/>
-				<input type="hidden" id="countOfMatch5Rate" th:value="${resultDto.countOfMatch5Rate}"/>
-				<input type="hidden" id="countOfMatchBonusRate" th:value="${resultDto.countOfMatchBonusRate}"/>
-				<input type="hidden" id="countOfMatch6Rate" th:value="${resultDto.countOfMatch6Rate}"/>
-				<input type="hidden" id="countOfMatch3" th:value="${resultDto.countOfMatch3}"/>
-				<input type="hidden" id="countOfMatch4" th:value="${resultDto.countOfMatch4}"/>
-				<input type="hidden" id="countOfMatch5" th:value="${resultDto.countOfMatch5}"/>
-				<input type="hidden" id="countOfMatchBonus" th:value="${resultDto.countOfMatchBonus}"/>
-				<input type="hidden" id="countOfMatch6" th:value="${resultDto.countOfMatch6}"/>
 				<input type="hidden" id="profit" th:value="${resultDto.profits}"/>
-				<!--end of row-->
+				<input type="hidden" id="nonAutoProfit" th:value="${customLottoResultDto.profits}"/>
 			</div>
 			<div class="container">
 				<div class="row">
@@ -96,49 +72,103 @@
 						    		<img th:each="item : ${winningLotto.lottoNos}" th:src="@{'http://nlotto.co.kr/img/common_new/ball_' + ${item} + '.png'}" th:alt="${item}"/>
 							</div>
                         </div>
-          
-						<p class="lead mb16">총 수익 : <a th:text="${resultDto.sumOfLottoMoney} +'원'"></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 text-center">
+						<p class="lead mb16">총 구매(자동) : <a th:text="${resultDto.sumOfMoney} +'원'"></a>
 						</p>
-						<p class="lead mb64">수익률 : <a id="lottoresultdata"></a>
+						<p class="lead mb16">총 수익(자동) : <a th:text="${resultDto.sumOfLottoMoney} +'원'"></a>
+						</p>
+						<p class="lead mb64">수익률 : <a th:text="${resultDto.profits} + '%'"></a>
 						</p>
 					</div>
+					<div class="col-md-6 text-center">
+						<p class="lead mb16">총 구매(수동) : <a th:text="${customLottoResultDto.sumOfMoney} +'원'"></a>
+						</p>
+						<p class="lead mb16">총 수익(수동) : <a th:text="${customLottoResultDto.sumOfLottoMoney} +'원'"></a>
+						</p>
+						<p class="lead mb64">수익률 : <a  th:text="${customLottoResultDto.profits} + '%'"></a>
+						</p>
+					</div>    
 				</div>
 				<!--end of row-->
 				<div class="row">
-					<div class="col-md-8 col-md-offset-2 col-sm-12 text-center">
+					<div class="col-md-6 col-sm-12 text-center">
 						<div class="progress-bars">
 							<div class="progress progress-1">
-								<div class="progress-bar" id="lottoval5" data-progress="10">
+								<div class="progress-bar" th:text="'5등 : ' + ${resultDto.countOfMatch3} +'번'" th:attr="data-progress=${resultDto.countOfMatch3Rate}">
 									<span class="title"></span>                         
 								</div>                                                  
 							</div>                                                      
 							<!--end of progress bar-->                                  
 							<div class="progress progress-1">                           
-								<div class="progress-bar" id="lottoval4" data-progress="10">
+								<div class="progress-bar" th:text="'4등 : ' + ${resultDto.countOfMatch4} +'번'" th:attr="data-progress=${resultDto.countOfMatch4Rate}">
 									<span class="title"></span>                        
 								</div>                                                 
 							</div>                                                     
 							<!--end of progress bar-->                                 
 							<div class="progress progress-1">                          
-								<div class="progress-bar" id="lottoval3" data-progress="10">
+								<div class="progress-bar" th:text="'3등 : ' + ${resultDto.countOfMatch5} +'번'" th:attr="data-progress=${resultDto.countOfMatch5Rate}">
 									<span class="title"></span>
 								</div>
 							</div>
 							<!--end of progress bar-->
 							<div class="progress progress-1">
-								<div class="progress-bar" id="lottoval2" data-progress="10">
+								<div class="progress-bar" th:text="'2등 : ' + ${resultDto.countOfMatchBonus} +'번'" th:attr="data-progress=${resultDto.countOfMatchBonusRate}">
 									<span class="title"></span>
 								</div>
 							</div>
 							<!--end of progress bar-->
 							<div class="progress progress-1">
-								<div class="progress-bar" id="lottoval1" data-progress="10">
+								<div class="progress-bar" th:text="'1등 : ' + ${resultDto.countOfMatch6} +'번'" th:attr="data-progress=${resultDto.countOfMatch6Rate}">
 									<span class="title"></span>
 								</div>
 							</div>
 							<!--end of progress bar-->
 							<div class="progress progress-1">
-								<div class="progress-bar" id="lottoresult" data-progress="30">
+								<div class="progress-bar" id="autoLottoResult" data-progress="30">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+						</div>
+						<!--end of bars holder-->
+					</div>
+					<div class="col-md-6 col-sm-12 text-center">
+						<div class="progress-bars">
+							<div class="progress progress-1">
+								<div class="progress-bar" th:text="'5등 : ' + ${customLottoResultDto.countOfMatch3} +'번'" th:attr="data-progress=${customLottoResultDto.countOfMatch3Rate}">
+									<span class="title"></span>                         
+								</div>                                                  
+							</div>                                                      
+							<!--end of progress bar-->                                  
+							<div class="progress progress-1">                           
+								<div class="progress-bar" th:text="'4등 : ' + ${customLottoResultDto.countOfMatch4} +'번'" th:attr="data-progress=${customLottoResultDto.countOfMatch4Rate}">
+									<span class="title"></span>                        
+								</div>                                                 
+							</div>                                                     
+							<!--end of progress bar-->                                 
+							<div class="progress progress-1">                          
+								<div class="progress-bar" th:text="'3등 : ' + ${customLottoResultDto.countOfMatch5} +'번'" th:attr="data-progress=${customLottoResultDto.countOfMatch5Rate}">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" th:text="'2등 : ' + ${customLottoResultDto.countOfMatchBonus} +'번'" th:attr="data-progress=${customLottoResultDto.countOfMatchBonusRate}">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" th:text="'1등 : ' + ${customLottoResultDto.countOfMatch6} +'번'" th:attr="data-progress=${customLottoResultDto.countOfMatch6Rate}">
+									<span class="title"></span>
+								</div>
+							</div>
+							<!--end of progress bar-->
+							<div class="progress progress-1">
+								<div class="progress-bar" id="nonAutoResult" data-progress="10">
 									<span class="title"></span>
 								</div>
 							</div>
@@ -147,13 +177,6 @@
 						<!--end of bars holder-->
 					</div>
 				</div>
-<!-- 				<div class="col-sm-12 text-center"> -->
-<!-- 					<div th:each="lottos : ${mylotto}"> -->
-<!-- 						<div th:each="lotto : ${lottos}"> -->
-<!-- 							<img th:each="item : ${lotto.lottoNos}" th:src="@{'http://nlotto.co.kr/img/common_new/ball_' + ${item} + '.png'}" th:alt="${item}"/> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
 			</div>
 		</section>
 	</div>
