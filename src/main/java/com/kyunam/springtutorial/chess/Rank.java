@@ -101,7 +101,6 @@ public class Rank {
 	
 	public int [] getPawnCheckList(Piece.Color color) {
 		int [] check = new int[8];
-		System.out.println("pawnCheckList");
 		for(int i=0; i<rank.size(); i++) {
 			if(rank.get(i).getType() == Piece.Type.PAWN && rank.get(i).getColor() == color) {
 				check[i] += 1;

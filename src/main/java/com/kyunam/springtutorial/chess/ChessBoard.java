@@ -83,11 +83,6 @@ public class ChessBoard {
 		findRank(position.getY()).setPiece(position.getX(), piece);
 	}
 	
-//	public void move(String position, Piece piece) {
-//		piece.setPosition(new Position(position));
-//		updateRank(piece);
-//	}
-	
 	public void move(String beforeposition, String afterPosition) {
 		Position before = new Position(beforeposition);
 		Piece piece = findPiece(before);
@@ -101,11 +96,9 @@ public class ChessBoard {
 		pawnCheckList = new PawnCheck();
 		for(int i=0; i<chessBoard.size(); i++) {
 			pointSum += chessBoard.get(i).getRankPoint(color);
-			//pawnCheckList.updateCheckList(color, findRank(i).getPawnCheckList(color));
-			System.out.println(pawnCheckList.getPawnCheckList(i, color));
+			pawnCheckList.updateCheckList(color, findRank(i).getPawnCheckList(color));
 		}
-		System.out.println();
-		//pointSum -= calculatePawnExceptionPoint(color);
+		pointSum -= calculatePawnExceptionPoint(color);
 		return pointSum;
 	}
 	

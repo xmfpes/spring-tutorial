@@ -48,13 +48,13 @@ public class ChessController {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+		board.showBoard();
 		return entity;
 	}
 
 	@PostMapping("/possibilityPosition")
 	public ResponseEntity<List<Position>> getPossibilityPosition(@RequestBody Map<String, Object> json) {
 		ResponseEntity<List<Position>> entity = null;
-		System.out.println("이동한다.1.");
 		try {
 			Piece piece = board.findPiece(new Position(json.get("position").toString()));
 			piece.setPossibilityPosition(board, piece);

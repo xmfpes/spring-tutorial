@@ -116,6 +116,7 @@ function drop(ev) {
 	$.ajax({
 		url : '/chess/move/',
 		type : 'PUT',
+		async: false,
 		headers : {
 			"Content-Type" : "application/json",
 			"X-HTTP-Method-Override" : "PUT"
@@ -145,6 +146,7 @@ function getPoint(){
 		},
 		success : function(data) {
 			console.log(data.white);
+			console.log(data.black);
 			document.getElementById("whitepoint").innerHTML = data.white;
 			document.getElementById("blackpoint").innerHTML = data.black;
 		},
@@ -153,3 +155,7 @@ function getPoint(){
 		}
 	});
 }
+
+$(document).ready(function(){
+	getPoint();
+});
