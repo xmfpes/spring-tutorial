@@ -18,7 +18,18 @@ public class Pawn extends Piece {
 	public static Pawn createBlack(Position position) {
 		return new Pawn(Color.BLACK, position, Direction.blackPawnDirection());
 	}
-
+	
+	@Override
+	public void move(Piece target) {
+		if(verifyMovePosition(target)) {
+			this.position = target.getPosition();
+			this.firstMove = false;
+			return;
+		}
+		
+		throw new InvalidPositionException(target + "위치로는 이동이 불가능합니다.");
+	}
+	
 	public boolean isFirstMove() {
 		return firstMove;
 	}

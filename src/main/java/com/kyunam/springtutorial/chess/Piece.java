@@ -6,7 +6,7 @@ import java.util.List;
 public class Piece {
 	private Color color;
 	private Type type;
-	private Position position;
+	protected Position position;
 	protected List<Position> possibilityPosition;
 	protected List<Direction> moveDirection;
 	protected MovingStrategy movingStrategy;
