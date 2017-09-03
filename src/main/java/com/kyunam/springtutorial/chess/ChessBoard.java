@@ -98,11 +98,14 @@ public class ChessBoard {
 	
 	public double caculcatePoint(Piece.Color color) {
 		double pointSum = 0;
+		pawnCheckList = new PawnCheck();
 		for(int i=0; i<chessBoard.size(); i++) {
 			pointSum += chessBoard.get(i).getRankPoint(color);
-			pawnCheckList.updateCheckList(color, chessBoard.get(i).getPawnCheckList(color));
+			//pawnCheckList.updateCheckList(color, findRank(i).getPawnCheckList(color));
+			System.out.println(pawnCheckList.getPawnCheckList(i, color));
 		}
-		pointSum -= calculatePawnExceptionPoint(color);
+		System.out.println();
+		//pointSum -= calculatePawnExceptionPoint(color);
 		return pointSum;
 	}
 	

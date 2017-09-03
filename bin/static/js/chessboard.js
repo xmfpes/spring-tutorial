@@ -27,6 +27,7 @@ $(function() {
 		return false;
 	});
 });
+
 function allowDrop(ev) {
 	ev.preventDefault();
 }
@@ -94,20 +95,23 @@ function drop(ev) {
 		return;
 	}
 	
+	var blanknode = document.createElement("a");
+	blanknode.setAttribute("draggable", "true");
+	blanknode.setAttribute("ondragstart", "drag(event)");
+	blanknode.setAttribute("class", "chess-item");
+	
 	if (ev.target.tagName == 'A') {
+		
+		ev.target.removeChild(ev.target.childNodes[0]);
+		before.appendChild(blanknode);
 		ev.target.parentNode.appendChild(before.children[0]);
 		ev.target.remove();
 	} else {
-		var blanknode = document.createElement("a");
-		blanknode.setAttribute("draggable", "true");
-		blanknode.setAttribute("ondragstart", "drag(event)");
-		blanknode.setAttribute("class", "chess-item");
 		ev.target.removeChild(ev.target.childNodes[0]);
 		before.appendChild(blanknode);
 		ev.target.appendChild(before.children[0]);
 	}
 	 
-	
 	ev.preventDefault();
 	$.ajax({
 		url : '/chess/move/',
@@ -122,6 +126,27 @@ function drop(ev) {
 		}),
 		success : function(data) {
 			console.log(data);
+		},
+		error : function(data) {
+			console.log(data);
+		}
+	});
+	getPoint();
+}
+
+function getPoint(){
+	$.ajax({
+		url : '/chess/getPoint/',
+		type : 'POST',
+		async: false,
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		success : function(data) {
+			console.log(data.white);
+			document.getElementById("whitepoint").innerHTML = data.white;
+			document.getElementById("blackpoint").innerHTML = data.black;
 		},
 		error : function(data) {
 			console.log(data);

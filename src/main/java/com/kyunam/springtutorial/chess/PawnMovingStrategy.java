@@ -15,6 +15,8 @@ public class PawnMovingStrategy implements MovingStrategy {
 	@Override
 	public void setPossibilityPositions(ChessBoard board, Piece myPiece, int index) {
 		// TODO Auto-generated method stub
+		boolean linearDirection = false;
+		
 		List<Position> possibilityPosition = myPiece.getPossibilityPosition();
 		Position position = myPiece.getPosition();
 		Direction direction = myPiece.getMoveDirection().get(index);
@@ -24,23 +26,28 @@ public class PawnMovingStrategy implements MovingStrategy {
 
 		int x = direction.getXDegree();
 		int y = direction.getYDegree();
+		
+		if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+			linearDirection = true;
+		}
 		System.out.println("x, y" + x + "," + y);
 		int moveX = myX + x;
 		int moveY = myY + y;
 
-		if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+		if (linearDirection) {
 			if(((Pawn) myPiece).isFirstMove()) {
 				moveX += x;
 				moveY += y;
-			}
-		} else {
-			if(board.findPiece(moveX, moveY).getType() == Piece.Type.NO_PIECE) {
-				return ;
 			}
 		}
 		
 		if (!(moveX < 0 || moveY >= 8 || moveY < 0 || moveX >= 8)
 				&& !myPiece.isSameTeam(board.findPiece(moveX, moveY))) {
+			if(!linearDirection) {
+				if(board.findPiece(moveX, moveY).getType() == Piece.Type.NO_PIECE) {
+					return ;
+				}
+			}
 			possibilityPosition.add(new Position(moveX, moveY));
 		}
 	}

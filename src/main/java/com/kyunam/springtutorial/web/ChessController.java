@@ -1,5 +1,6 @@
 package com.kyunam.springtutorial.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,21 @@ public class ChessController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<List<Position>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@PostMapping("/getPoint")
+	public ResponseEntity<Map<String, Double>> getPont() {
+		ResponseEntity<Map<String, Double>> entity = null;
+		Map<String, Double> map = new HashMap<String, Double>();
+		try {
+			map.put("white", board.caculcatePoint(Piece.Color.WHITE));
+			map.put("black", board.caculcatePoint(Piece.Color.BLACK));
+			entity = new ResponseEntity<Map<String,Double>>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Double>>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}
