@@ -38,11 +38,7 @@ public class ChessController {
 	@PutMapping("/move")
 	public ResponseEntity<String> move(@RequestBody Map<String, Object> json){
 		ResponseEntity<String> entity = null;
-		System.out.println("이동한다.1.");
 		try {
-			System.out.println("이동한다.2.");
-			System.out.println("내 자리 : " + json.get("position").toString());
-			System.out.println("타겟 자리 : " + json.get("target").toString());
 			Piece piece = board.findPiece(new Position(json.get("position").toString()));
 			piece.setPossibilityPosition(board, piece);
 			board.move(json.get("position").toString(), json.get("target").toString());

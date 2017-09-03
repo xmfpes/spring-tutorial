@@ -14,9 +14,6 @@ public class PawnMovingStrategy implements MovingStrategy {
 
 	@Override
 	public void setPossibilityPositions(ChessBoard board, Piece myPiece, int index) {
-		if (((Pawn) myPiece).isFirstMove()) {
-
-		}
 		// TODO Auto-generated method stub
 		List<Position> possibilityPosition = myPiece.getPossibilityPosition();
 		Position position = myPiece.getPosition();
@@ -27,7 +24,7 @@ public class PawnMovingStrategy implements MovingStrategy {
 
 		int x = direction.getXDegree();
 		int y = direction.getYDegree();
-
+		System.out.println("x, y" + x + "," + y);
 		int moveX = myX + x;
 		int moveY = myY + y;
 
@@ -44,11 +41,7 @@ public class PawnMovingStrategy implements MovingStrategy {
 		
 		if (!(moveX < 0 || moveY >= 8 || moveY < 0 || moveX >= 8)
 				&& !myPiece.isSameTeam(board.findPiece(moveX, moveY))) {
-			System.out.println("x : " + moveX + " y : " + moveY);
 			possibilityPosition.add(new Position(moveX, moveY));
-			if(((Pawn) myPiece).isFirstMove()) {
-				((Pawn) myPiece).setFirstMove(false);
-			}
 		}
 	}
 

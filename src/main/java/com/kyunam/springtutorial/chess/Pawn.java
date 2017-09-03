@@ -4,10 +4,11 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
-	private boolean firstMove = false;
+	private boolean firstMove;
 
 	private Pawn(Color color, Position position, List<Direction> direction) {
 		super(color, Type.PAWN, position, direction, new PawnMovingStrategy());
+		this.firstMove = true;
 	}
 
 	public static Pawn createWhite(Position position) {
