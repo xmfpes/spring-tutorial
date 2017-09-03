@@ -1,3 +1,12 @@
+token = $("meta[name='_csrf']").attr("content");
+header = $("meta[name='_csrf_header']").attr("content");
+
+$(function() {
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+});
+
 $(function() {
 	var index = 0;
 	var source;
@@ -23,19 +32,17 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	
+	var possibilityPosition;
 	ev.dataTransfer.setData("Text", ev.target.parentNode.id);
 	var dragId = ev.target.parentNode.id;
-	$(function() {
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-	});
+
 	console.log(dragId);
 	$.ajax({
 		url : '/chess/possibilityPosition/',
 		type : 'POST',
+		async: false,
 		headers : {
 			"Content-Type" : "application/json",
 			"X-HTTP-Method-Override" : "POST"
@@ -46,46 +53,61 @@ function drag(ev) {
 		success : function(data) {
 			for (var i = 0; i < data.length; i++) { 
 				console.log(i + ": " +data[i].position);
+				document.getElementById(data[i].position).style.border = "4px dotted blue";
 			}
-			
+			possibilityPosition = data;
 		},
 		error : function(data) {
 			alert("error" + data);
 		}
 	});
+	ev.dataTransfer.setData("possibilityPosition",JSON.stringify(possibilityPosition));
 }
 
 function drop(ev) {
+	var beforePositionId = ev.dataTransfer.getData("Text");
+	var before = document.getElementById(beforePositionId);
+	
+	var possibilityPosition = JSON.parse(ev.dataTransfer.getData("possibilityPosition"));
+	var isPossiblePosition = false;
+	var targetId;
 
-	var data = ev.dataTransfer.getData("Text");
-	var before = document.getElementById(data);
-
-	var myPositionId = before.id;
-	var targetPositionId;
-
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-
+	if(ev.target.tagName == 'A'){
+		targetId = ev.target.parentNode.id;
+	}else{
+		targetId = ev.target.id;
+	}
+	
+	for (var i in possibilityPosition) { 
+		if(targetId === possibilityPosition[i].position){
+			isPossiblePosition = true;
+		}
+		document.getElementById(possibilityPosition[i].position).style.border = "";
+	}
+	
 	if (ev.target == before.children[0]) {
 		return;
 	}
+	
+	if(isPossiblePosition == false){
+		alert("이동 할 수 없는 위치입니다.");
+		return;
+	}
+	
 	if (ev.target.tagName == 'A') {
 		ev.target.parentNode.appendChild(before.children[0]);
-		targetPositionId = ev.target.parentNode.id;
 		ev.target.remove();
 	} else {
-		before.appendChild(ev.target.children[0]);
+		var blanknode = document.createElement("a");
+		blanknode.setAttribute("draggable", "true");
+		blanknode.setAttribute("ondragstart", "drag(event)");
+		blanknode.setAttribute("class", "chess-item");
+		ev.target.removeChild(ev.target.childNodes[0]);
+		before.appendChild(blanknode);
 		ev.target.appendChild(before.children[0]);
-		targetPositionId = ev.target.id;
 	}
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
 	 
-	$(function() {
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-	});
+	
 	ev.preventDefault();
 	$.ajax({
 		url : '/chess/move/',
@@ -95,14 +117,14 @@ function drop(ev) {
 			"X-HTTP-Method-Override" : "PUT"
 		},
 		data : JSON.stringify({
-			"position" : myPositionId,
-			"target" : targetPositionId
+			"position" : beforePositionId,
+			"target" : targetId
 		}),
 		success : function(data) {
-			alert('Load was performed.');
+			console.log(data);
 		},
 		error : function(data) {
-			alert("error" + data);
+			console.log(data);
 		}
 	});
 }

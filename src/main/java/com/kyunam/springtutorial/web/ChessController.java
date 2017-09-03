@@ -24,10 +24,11 @@ import com.kyunam.springtutorial.chess.Position;
 @Controller
 @RequestMapping("/chess")
 public class ChessController {
-	static ChessBoard board = new ChessBoard();
+	static ChessBoard board;
 
 	@GetMapping("")
 	public String home() {
+		board = new ChessBoard();
 		System.out.println("hi");
 		board.initialize();
 		return "/chess/chess";
