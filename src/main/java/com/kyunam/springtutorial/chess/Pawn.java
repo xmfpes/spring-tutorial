@@ -37,4 +37,14 @@ public class Pawn extends Piece {
 	public void setFirstMove(boolean firstMove) {
 		this.firstMove = firstMove;
 	}
+
+	@Override
+    protected String getWhiteSymbol() {
+        return "&#9817;";
+    }
+
+    @Override
+    protected String getBlackSymbol() {
+        return "&#9823;";
+    }
 }

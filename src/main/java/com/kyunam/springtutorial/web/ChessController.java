@@ -1,5 +1,7 @@
 package com.kyunam.springtutorial.web;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,63 +24,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kyunam.springtutorial.chess.ChessBoard;
 import com.kyunam.springtutorial.chess.Piece;
 import com.kyunam.springtutorial.chess.Position;
+import com.kyunam.springtutorial.chess.Rank;
 
 @Controller
 @RequestMapping("/chess")
 public class ChessController {
-	static ChessBoard board;
+	public static ChessBoard board;
 
 	@GetMapping("")
-	public String home() {
+	public String home(Model model) {
 		board = new ChessBoard();
-		System.out.println("hi");
 		board.initialize();
+		model.addAttribute("chessBoard", board.getReverseChessBoard());
 		return "/chess/chess";
-	}
-
-	// U
-	@PutMapping("/move")
-	public ResponseEntity<String> move(@RequestBody Map<String, Object> json){
-		ResponseEntity<String> entity = null;
-		try {
-			Piece piece = board.findPiece(new Position(json.get("position").toString()));
-			piece.setPossibilityPosition(board, piece);
-			board.move(json.get("position").toString(), json.get("target").toString());
-			entity = new ResponseEntity<String>("SUCCEUSS", HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		board.showBoard();
-		return entity;
-	}
-
-	@PostMapping("/possibilityPosition")
-	public ResponseEntity<List<Position>> getPossibilityPosition(@RequestBody Map<String, Object> json) {
-		ResponseEntity<List<Position>> entity = null;
-		try {
-			Piece piece = board.findPiece(new Position(json.get("position").toString()));
-			piece.setPossibilityPosition(board, piece);
-			entity = new ResponseEntity<List<Position>>(piece.getPossibilityPosition(), HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<List<Position>>(HttpStatus.BAD_REQUEST);
-		}
-		return entity;
-	}
-	
-	@PostMapping("/getPoint")
-	public ResponseEntity<Map<String, Double>> getPont() {
-		ResponseEntity<Map<String, Double>> entity = null;
-		Map<String, Double> map = new HashMap<String, Double>();
-		try {
-			map.put("white", board.caculcatePoint(Piece.Color.WHITE));
-			map.put("black", board.caculcatePoint(Piece.Color.BLACK));
-			entity = new ResponseEntity<Map<String,Double>>(map, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<Map<String,Double>>(HttpStatus.BAD_REQUEST);
-		}
-		return entity;
 	}
 }

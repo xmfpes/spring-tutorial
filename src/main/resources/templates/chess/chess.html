@@ -3,7 +3,7 @@
 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="/include/header">
 </head>
-<body class="scroll-assist">
+<body class="scroll-assist" onselectstart="return false">
 	<div th:replace="/include/nav"></div>
 	<div class="main-container">
 		<div class="container">
@@ -18,110 +18,29 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 				<div class="col-md-9">
 				<table id="boards" cellpadding="0" cellspacing="0">
 					<tbody>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9820;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9822;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9821;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9819;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9818;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9821;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9822;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h8"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9820;</a></td>
-			
-						</tr>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h7"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9823;</a></td>
-			
-						</tr>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h6"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-			
-						</tr>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h5"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-			
-						</tr>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h4"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-			
-						</tr>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h3"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#"></a></td>
-			
-						</tr>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h2"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9817;</a></td>
-			
-						</tr>
-						<tr>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="a1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9814;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="b1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9816;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="c1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9815;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="d1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9813;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="e1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9812;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="f1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9815;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="g1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9816;</a></td>
-							<td ondrop="drop(event)" ondragover="allowDrop(event)" id="h1"><a draggable="true" ondragstart="drag(event)" class="chess-item" href="#">&#9814;</a></td>
-						</tr>
-					</tbody>
+		    			<tr th:each="ranks : ${chessBoard}">
+		    				<td th:ondrop="'drop(event);'" th:ondragover="'allowDrop(event);'" th:each="piece : ${ranks.rank}" th:id="${piece.position.position}">
+		    					<a th:draggable="true" th:ondragstart="'drag(event);'" class="chess-item" th:utext="${piece.symbol}"></a>
+		    				</td>
+		    			</tr>
+		    			</tbody>
 				</table>
+				
 				</div>
 				<div class="col-md-2">
-					<h1><a class="btn btn-md">백이 둘 차례</a></h1>
+					<h1><a  id="turn" class="btn btn-md">백이 둘 차례</a></h1>
 					<br />
 					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<h3 class="panel-title">&#9819; : 흑 점수</h3>
 						</div>
-						<div class="panel-body" id="blackpoint">35</div>
+						<div class="panel-body" id="blackpoint">38</div>
 					</div>
 					<div class="panel panel-danger">
 						<div class="panel-heading">
 							<h3 class="panel-title">&#9813; : 백 점수</h3>
 						</div>
-						<div class="panel-body" id="whitepoint">24</div>
+						<div class="panel-body" id="whitepoint">38</div>
 					</div>
 				</div>
 			</div>

@@ -19,6 +19,7 @@ public class Position {
 			throw new InvalidPositionException("위치 값이 null이 될 수 없습니다.");
 		}
 		if(position.length() != 2) {
+			System.out.println(position);
 			throw new InvalidPositionException("값이 길이가 잘못되었습니다.");
 		}
 		this.x = position.charAt(0) - 'a';

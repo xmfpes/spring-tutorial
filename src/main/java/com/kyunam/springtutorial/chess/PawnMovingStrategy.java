@@ -30,7 +30,7 @@ public class PawnMovingStrategy implements MovingStrategy {
 		if (direction == Direction.NORTH || direction == Direction.SOUTH) {
 			linearDirection = true;
 		}
-		System.out.println("x, y" + x + "," + y);
+		
 		int moveX = myX + x;
 		int moveY = myY + y;
 
@@ -47,8 +47,15 @@ public class PawnMovingStrategy implements MovingStrategy {
 				if(board.findPiece(moveX, moveY).getType() == Piece.Type.NO_PIECE) {
 					return ;
 				}
+			} else {
+				if(!(board.findPiece(moveX, moveY).getType() == Piece.Type.NO_PIECE)) {
+					return ;
+				}
 			}
 			possibilityPosition.add(new Position(moveX, moveY));
+			if(((Pawn) myPiece).isFirstMove()) {
+				possibilityPosition.add(new Position(moveX - x, moveY - y));
+			}
 		}
 	}
 

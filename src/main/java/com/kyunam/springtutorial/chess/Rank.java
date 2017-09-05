@@ -35,7 +35,13 @@ public class Rank {
 	public int getRankSize() {
 		return rank.size();
 	}
-	
+
+	public List<Piece> getRank() {
+		return rank;
+	}
+	public void setRank(List<Piece> rank) {
+		this.rank = rank;
+	}
 	public static Rank createBlackPieceRank(){
 		List<Piece> blackPieceList = new ArrayList<Piece>();
 		blackPieceList.add(Rook.createBlack(new Position("a8")));
@@ -105,7 +111,6 @@ public class Rank {
 			if(rank.get(i).getType() == Piece.Type.PAWN && rank.get(i).getColor() == color) {
 				check[i] += 1;
 			}
-			System.out.println(check[i]);
 		}
 		return check;
 	}

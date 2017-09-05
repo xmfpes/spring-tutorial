@@ -3,7 +3,7 @@ package com.kyunam.springtutorial.chess;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Piece {
+public abstract class Piece {
 	private Color color;
 	private Type type;
 	protected Position position;
@@ -71,34 +71,34 @@ public class Piece {
 	}
 
 	public void move(Piece target) {
-		if(verifyMovePosition(target)) {
+		if (verifyMovePosition(target)) {
 			this.position = target.getPosition();
 			return;
 		}
-		
+
 		throw new InvalidPositionException(target + "위치로는 이동이 불가능합니다.");
 	}
 
 	public boolean verifyMovePosition(Piece target) {
-		
+
 		if (isSameTeam(target)) {
 			throw new InvalidPositionException(target + " 위치는 이동할 수 없는 위치입니다.");
 		}
-		
+
 		Position position = target.getPosition();
 		System.out.println("kkkkk loc " + position.getX() + "," + position.getY());
-		if (!possibilityPosition.contains(position)){
+		if (!possibilityPosition.contains(position)) {
 			throw new InvalidPositionException(target + " 위치는 이동할 수 없는 위치입니다.");
 		}
 
 		return true;
 	}
-	
+
 	public void setPossibilityPosition(ChessBoard board, Piece myPiece) {
 		this.possibilityPosition = new ArrayList<Position>();
 		movingStrategy.setPossibilityPosition(board, myPiece);
 	}
-	
+
 	public boolean isSameTeam(Piece target) {
 		if (isWhite() && target.isWhite()) {
 			return true;
@@ -126,14 +126,15 @@ public class Piece {
 	public void setType(Type type) {
 		this.type = type;
 	}
-	
+
 	public Piece(Color color, Type type, Position position) {
 		this.color = color;
 		this.type = type;
 		this.position = position;
 	}
 
-	protected Piece(Color color, Type type, Position position, List<Direction> directions, MovingStrategy movingStrategy) {
+	protected Piece(Color color, Type type, Position position, List<Direction> directions,
+			MovingStrategy movingStrategy) {
 		this.color = color;
 		this.type = type;
 		this.position = position;
@@ -157,11 +158,11 @@ public class Piece {
 	public boolean isWhite() {
 		return this.color.equals(Color.WHITE);
 	}
-	
+
 	public List<Position> getPossibilityPosition() {
 		return possibilityPosition;
 	}
-	
+
 	public List<Direction> getMoveDirection() {
 		return moveDirection;
 	}
@@ -169,6 +170,14 @@ public class Piece {
 	public void setMoveDirection(List<Direction> moveDirection) {
 		this.moveDirection = moveDirection;
 	}
+
+	public String getSymbol() {
+		return isWhite() ? getWhiteSymbol() : getBlackSymbol();
+	}
+
+	protected abstract String getWhiteSymbol();
+
+	protected abstract String getBlackSymbol();
 
 	@Override
 	public int hashCode() {

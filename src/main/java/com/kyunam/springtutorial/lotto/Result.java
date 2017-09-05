@@ -1,7 +1,9 @@
 package com.kyunam.springtutorial.lotto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Result {
 	public enum Match{
@@ -46,6 +48,7 @@ public class Result {
 		}
 	}
 	private List<MatchingResult> results;
+//	private Map<Match, MatchingResult> lottoResults;
 	private int profit;
 	
 	private int sumOfLottoMoney;
@@ -58,6 +61,13 @@ public class Result {
 		results.add(new MatchingResult(Match.MATCH5));
 		results.add(new MatchingResult(Match.MATCH6));
 		results.add(new MatchingResult(Match.MATCHBonus));
+		
+//		lottoResults = new HashMap<Match, MatchingResult>();
+//		lottoResults.put(Match.MATCH3, new MatchingResult(Match.MATCH3));
+//		lottoResults.put(Match.MATCH4, new MatchingResult(Match.MATCH4));
+//		lottoResults.put(Match.MATCH5, new MatchingResult(Match.MATCH5));
+//		lottoResults.put(Match.MATCHBonus, new MatchingResult(Match.MATCHBonus));
+//		lottoResults.put(Match.MATCH6, new MatchingResult(Match.MATCH6));
 	}
 
 	public void updateResult(int count) {

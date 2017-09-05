@@ -15,4 +15,14 @@ public class Rook extends Piece{
         return new Rook(Color.BLACK, position);
     }
 
+    @Override
+    protected String getWhiteSymbol() {
+        return "&#9814;";
+    }
+
+    @Override
+    protected String getBlackSymbol() {
+        return "&#9820;";
+    }
+
 }

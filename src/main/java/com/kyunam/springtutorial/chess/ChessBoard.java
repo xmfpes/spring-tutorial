@@ -3,11 +3,13 @@ package com.kyunam.springtutorial.chess;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class ChessBoard {
+	private Piece.Color turn;
 	public static final String NEWLINE = System.getProperty("line.separator");
 	public static final String BLANK = "........";
 	private List<Rank> chessBoard;
@@ -15,6 +17,7 @@ public class ChessBoard {
 	
 	
 	public ChessBoard() {
+		turn = Piece.Color.WHITE;
 		chessBoard = new ArrayList<Rank>();
 		pawnCheckList = new PawnCheck();
 	}
@@ -66,6 +69,23 @@ public class ChessBoard {
 		return chessBoard.get(row).findPiece(col);
 	}
 	
+	public List<Rank> getChessBoard() {
+		return chessBoard;
+	}
+
+	public List<Rank> getReverseChessBoard() {
+		List<Rank> reverseBoard = new ArrayList<Rank>();
+		int length = this.chessBoard.size();
+		for(int i=0; i<length; i++) {
+			reverseBoard.add(this.chessBoard.get(length - 1 - i));
+		}
+		return reverseBoard;
+	}
+	
+	public void setChessBoard(List<Rank> chessBoard) {
+		this.chessBoard = chessBoard;
+	}
+
 	public Piece findPiece(Position p) {
         return findRank(p.getY()).getIndexPiece(p.getX());
     }
@@ -86,9 +106,18 @@ public class ChessBoard {
 	public void move(String beforeposition, String afterPosition) {
 		Position before = new Position(beforeposition);
 		Piece piece = findPiece(before);
+		if(piece.getColor() != this.turn) {
+			throw new RuntimeException("니 턴이 아닙니다.");
+		}
         piece.move(findPiece(new Position(afterPosition)));
         updateRank(Blank.create(before));
         updateRank(piece);
+        if(this.turn == Piece.Color.WHITE) {
+        		this.turn = Piece.Color.BLACK;
+        }
+        else {
+        		this.turn = Piece.Color.WHITE;
+        }
 	}
 	
 	public double caculcatePoint(Piece.Color color) {
@@ -111,4 +140,5 @@ public class ChessBoard {
 		}
 		return minusPoint;
 	}
+
 }

@@ -13,6 +13,16 @@ public class King extends Piece{
     public static King createBlack(Position position) {
         return new King(Color.BLACK, position);
     }
+
+    @Override
+    protected String getWhiteSymbol() {
+        return "&#9812;";
+    }
+
+    @Override
+    protected String getBlackSymbol() {
+        return "&#9818;";
+    }
     
 
 }
